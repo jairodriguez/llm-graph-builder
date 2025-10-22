@@ -102,7 +102,7 @@ def get_llm(model: str):
 
         elif "ollama" in model:
             model_name, base_url = env_value.split(",")
-            llm = ChatOllama(base_url=base_url, model=model_name)
+            llm = ChatOllama(base_url=base_url, model=model_name, temperature=0, format="json")
 
         elif "diffbot" in model:
             #model_name = "diffbot"
@@ -183,7 +183,7 @@ async def get_graph_document_list(
     if "diffbot_api_key" in dir(llm):
         llm_transformer = llm
     else:
-        if "get_name" in dir(llm) and llm.get_name() != "ChatOpenAI" or llm.get_name() != "ChatVertexAI" or llm.get_name() != "AzureChatOpenAI":
+        if "get_name" in dir(llm) and llm.get_name() not in ["ChatOpenAI", "ChatVertexAI", "AzureChatOpenAI"]:
             node_properties = False
             relationship_properties = False
         else:
